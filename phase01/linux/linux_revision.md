@@ -41,6 +41,46 @@ The `cd` command stands for "change directory" and is used to navigate between d
 - **`cd ..`**: Moves up one directory level (to the parent directory).
 - **`cd`**: Without any arguments, it returns to the user's home directory.
 
-This command is essential for navigating the filesystem and managing files and directories effectively.
+### pwd
+
+The `pwd` command stands for "print working directory" and is used to display the current directory path in a Unix-like operating system.
+
+#### Usage
+- **`pwd`**: Outputs the full path of the current working directory.
+
+### tree
+
+The `tree` command is used to display directories and files in a tree-like format, providing a visual representation of the directory structure.
+
+#### Usage
+- **`tree`**: Displays the directory structure of the current directory.
+
+#### Example Output
+```
+matheus@MacBook-Air-de-Matheus infra-with-go % tree             
+.
+├── README.md
+└── phase01
+    └── linux
+        └── linux_revision.md
+
+3 directories, 2 files
+```
+
+This command is particularly useful for quickly understanding the layout of a project or directory.
+
+### cp
+
+The `cp` command is used to copy files and directories in Unix-like operating systems.
+
+#### Usage
+- **`cp [source] [destination]`**: Copies the file or directory from the source path to the destination path.
+- **`cp -r [source_directory] [destination_directory]`**: Recursively copies a directory and its contents.
+
+This command is essential for duplicating files and directories, allowing for backup and organization of data.
+
+
+
+
 
 
