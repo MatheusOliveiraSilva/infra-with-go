@@ -149,3 +149,25 @@ cat access.log | grep 404 | sort | uniq -c | sort -nr | head -n 10
 - **`head -n 10`**: Shows the top 10 lines, which are the most frequent "404" entries.
 
 This pipeline is a powerful example of how you can combine simple commands to perform complex data processing tasks.
+
+### Variables & Globbing
+
+#### Environment Variables
+Environment variables are dynamic values that affect the processes or programs on a computer. They can be used to store system-wide values like the location of executables, the default editor, etc.
+
+- **`export MYVAR="value"`**: Sets an environment variable `MYVAR` with the value "value".
+- **`echo $MYVAR`**: Retrieves the value of the environment variable `MYVAR`.
+
+#### PATH Manipulation
+The `PATH` variable is a critical environment variable that tells the shell where to look for executable files.
+
+- **`export PATH="$HOME/bin:$PATH"`**: Prepends `~/bin` to your `PATH`, allowing executables in `~/bin` to be found before others.
+
+#### Globbing Patterns
+Globbing is a way to specify patterns for filenames. It is used in shell commands to match multiple files or directories.
+
+- **`*`**: Matches zero or more characters. Example: `ls *.go` lists all `.go` files.
+- **`?`**: Matches exactly one character. Example: `ls file?.txt` matches `file1.txt`, `file2.txt`, etc.
+- **`{1..5}`**: Numeric ranges. Example: `echo {1..5}.log` outputs `1.log 2.log ... 5.log`.
+
+These tools are essential for efficient file management and script writing in Unix-like systems.
