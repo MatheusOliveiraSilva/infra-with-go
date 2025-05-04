@@ -89,6 +89,17 @@ The `mv` command is used to move or rename files and directories in Unix-like op
 
 This command is essential for organizing files and directories, allowing for changes in structure and naming.
 
+### rm
+
+The `rm` command is used to remove files and directories in Unix-like operating systems.
+
+#### Usage
+- **`rm [file]`**: Removes the specified file.
+- **`rm -r [directory]`**: Recursively removes a directory and its contents.
+- **`rm -f [file]`**: Forces the removal of a file without prompting for confirmation.
+
+This command is powerful and should be used with caution, as it permanently deletes files and directories.
+
 
 
 
