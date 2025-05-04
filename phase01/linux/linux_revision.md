@@ -32,4 +32,15 @@ drwxr-xr-x@ 13 matheus  staff   416 May  4 14:02 .git
 drwxr-xr-x@  3 matheus  staff    96 May  4 15:26 phase01
 ```
 
+### cd
+
+The `cd` command stands for "change directory" and is used to navigate between directories in a Unix-like operating system.
+
+#### Usage
+- **`cd [directory]`**: Changes the current directory to the specified directory.
+- **`cd ..`**: Moves up one directory level (to the parent directory).
+- **`cd`**: Without any arguments, it returns to the user's home directory.
+
+This command is essential for navigating the filesystem and managing files and directories effectively.
+
 
