@@ -190,3 +190,54 @@ Managing processes is a crucial part of using Unix-like operating systems. Here 
 - **`renice -n -5 -p 12345`**: Raises the priority of the process with PID 12345.
 
 These commands are essential for managing system resources and ensuring efficient operation of processes.
+
+### Permissions
+
+Managing file and directory permissions is crucial for system security and proper access control in Unix-like operating systems.
+
+#### Change File Permissions with `chmod`
+The `chmod` command is used to change the permissions of a file or directory. Permissions can be set using either symbolic or numeric modes.
+
+- **Symbolic Mode**: Uses letters to represent permissions.
+  - Example: `chmod u+x script.sh` makes the script executable by the owner.
+- **Numeric Mode**: Uses octal numbers to set permissions.
+  - Example: `chmod 644 file.txt` sets permissions to `rw-r--r--`, allowing the owner to read and write, and others to read only.
+
+#### Understanding Numeric Permissions
+File permissions are represented numerically using octal numbers, where each digit represents a different set of permissions.
+
+1. **Permission Types**:
+   - **Read (r)**: Allows reading the file or listing the directory contents.
+   - **Write (w)**: Allows modifying the file or directory contents.
+   - **Execute (x)**: Allows executing the file or accessing the directory.
+
+2. **Permission Groups**:
+   - **Owner**: The user who owns the file.
+   - **Group**: The group that owns the file.
+   - **Others**: All other users.
+
+3. **Numeric Values**:
+   - Each permission type is assigned a numeric value:
+     - Read (r) = 4
+     - Write (w) = 2
+     - Execute (x) = 1
+   - No permission = 0
+
+4. **Combining Permissions**:
+   - Permissions are combined by adding their numeric values:
+     - Read + Write = 4 + 2 = 6
+     - Read + Execute = 4 + 1 = 5
+     - Read + Write + Execute = 4 + 2 + 1 = 7
+
+#### Change Owner or Group with `chown`
+The `chown` command is used to change the owner and group of a file or directory.
+
+- **Example**: `sudo chown matheus:staff file.txt` sets the owner to "matheus" and the group to "staff" for `file.txt`.
+
+#### Use `sudo` to Run Commands as Root
+The `sudo` command allows a permitted user to run a command as the superuser or another user, as specified by the security policy.
+
+- **Example**: `sudo apt update` runs the `apt update` command as root (example for Debian/Ubuntu).
+- **Example**: `sudo -l` lists allowed `sudo` commands for the current user.
+
+These commands are essential for managing access and ensuring that only authorized users can modify or execute files.
