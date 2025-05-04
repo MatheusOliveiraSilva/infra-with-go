@@ -100,6 +100,32 @@ The `rm` command is used to remove files and directories in Unix-like operating 
 
 This command is powerful and should be used with caution, as it permanently deletes files and directories.
 
+### mkdir
+
+The `mkdir` command is used to create new directories in Unix-like operating systems.
+
+#### Usage
+- **`mkdir [directory_name]`**: Creates a new directory with the specified name.
+- **`mkdir -p [path/to/directory]`**: Creates a directory and any necessary parent directories.
+
+This command is useful for organizing files into directories and creating directory structures.
+
+### echo
+
+The `echo` command is used to display a line of text or a variable value, and can also redirect output to files in Unix-like operating systems.
+
+#### Usage
+- **`echo [text]`**: Prints the specified text to the terminal.
+- **`echo $[variable_name]`**: Displays the value of a variable.
+- **`echo [text] > [file]`**: Overwrites the specified file with the text.
+- **`echo [text] >> [file]`**: Appends the text to the specified file.
+
+#### Examples
+- **`echo "hello" > greeting.txt`**: Overwrites the file `greeting.txt` with the text "hello".
+- **`echo "world" >> greeting.txt`**: Appends the text "world" to the file `greeting.txt`.
+
+This command is often used in scripts to output text, variable values, or to manage file contents.
+
 
 
 
