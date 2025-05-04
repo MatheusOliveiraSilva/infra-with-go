@@ -171,3 +171,22 @@ Globbing is a way to specify patterns for filenames. It is used in shell command
 - **`{1..5}`**: Numeric ranges. Example: `echo {1..5}.log` outputs `1.log 2.log ... 5.log`.
 
 These tools are essential for efficient file management and script writing in Unix-like systems.
+
+### Processes
+
+Managing processes is a crucial part of using Unix-like operating systems. Here are some common commands for handling processes:
+
+#### List Running Processes
+- **`ps aux`**: Lists all processes by all users.
+- **`top`**: Provides an interactive real-time view of running processes.
+- **`htop`**: If installed, offers a more user-friendly interface than `top`.
+
+#### Kill a Process by PID
+- **`kill 12345`**: Sends a gentle termination signal to the process with PID 12345.
+- **`kill -9 12345`**: Forcefully kills the process with PID 12345.
+
+#### Adjust Process Priority
+- **`nice -n 10 long_running_command`**: Starts a command with a lower priority.
+- **`renice -n -5 -p 12345`**: Raises the priority of the process with PID 12345.
+
+These commands are essential for managing system resources and ensuring efficient operation of processes.
