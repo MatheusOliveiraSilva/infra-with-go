@@ -79,6 +79,16 @@ The `cp` command is used to copy files and directories in Unix-like operating sy
 
 This command is essential for duplicating files and directories, allowing for backup and organization of data.
 
+### mv
+
+The `mv` command is used to move or rename files and directories in Unix-like operating systems.
+
+#### Usage
+- **`mv [source] [destination]`**: Moves the file or directory from the source path to the destination path.
+- **`mv [old_name] [new_name]`**: Renames a file or directory.
+
+This command is essential for organizing files and directories, allowing for changes in structure and naming.
+
 
 
 
