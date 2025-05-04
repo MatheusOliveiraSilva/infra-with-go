@@ -126,8 +126,26 @@ The `echo` command is used to display a line of text or a variable value, and ca
 
 This command is often used in scripts to output text, variable values, or to manage file contents.
 
+### Pipes & Filters
 
+Pipes (`|`) are used to connect the output of one command directly into the input of another command, allowing for complex command sequences by chaining simple commands together.
 
+#### Common Filters
+- **`grep PATTERN`**: Filters lines matching PATTERN.
+- **`sort`**: Sorts lines alphabetically or numerically.
+- **`uniq`**: Removes duplicate adjacent lines (often used after sort).
+- **`wc`**: Counts lines, words, and bytes (use `wc -l` for line count).
+- **`head` / `tail`**: Show the first/last N lines.
 
+#### Example Pipeline
+```bash
+cat access.log | grep 404 | sort | uniq -c | sort -nr | head -n 10
+```
+- **`cat access.log`**: Outputs the contents of `access.log`.
+- **`grep 404`**: Filters lines containing "404".
+- **`sort`**: Sorts the filtered lines.
+- **`uniq -c`**: Counts and removes duplicate lines, showing the count of each unique line.
+- **`sort -nr`**: Sorts the lines numerically in reverse order (most frequent first).
+- **`head -n 10`**: Shows the top 10 lines, which are the most frequent "404" entries.
 
-
+This pipeline is a powerful example of how you can combine simple commands to perform complex data processing tasks.
