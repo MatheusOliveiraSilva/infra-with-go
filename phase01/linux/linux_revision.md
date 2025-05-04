@@ -241,3 +241,25 @@ The `sudo` command allows a permitted user to run a command as the superuser or 
 - **Example**: `sudo -l` lists allowed `sudo` commands for the current user.
 
 These commands are essential for managing access and ensuring that only authorized users can modify or execute files.
+
+### Basic Networking
+
+Understanding basic networking commands is crucial for diagnosing network issues and managing network configurations in Unix-like systems.
+
+#### Check Your IP Addresses and Interfaces
+- **`ip a`** (on Linux): Displays all network interfaces and their IP addresses.
+- **`ifconfig`** (on macOS or Linux with `net-tools` installed): Shows network interfaces and their configurations, including IP addresses.
+
+#### Test Connectivity
+- **`ping google.com`**: Sends ICMP echo requests to test network connectivity to a specified host.
+- **`traceroute google.com`**: Displays the route and measures transit delays of packets across an IP network.
+
+#### Inspect Open Ports and Listening Services
+- **`ss -tulpn`** (on Linux): Shows open ports and listening services with detailed socket statistics.
+- **`lsof -iTCP -sTCP:LISTEN`** (on macOS): Lists TCP ports in the LISTEN state, showing services listening for connections.
+
+#### Fetch a URL and View Headers/Body
+- **`curl -I https://api.example.com`**: Fetches HTTP headers of a URL without downloading the body.
+- **`curl -v http://localhost:8080`**: Performs a verbose HTTP request, displaying request and response headers and body.
+
+These commands are essential for diagnosing network issues, testing connectivity, and inspecting network configurations and services.
