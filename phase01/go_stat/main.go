@@ -36,5 +36,7 @@ func main() {
 		}
 	}()
 
+	fmt.Println("Waiting for goroutine to finish...")
 	wg.Wait()
+	fmt.Println("Goroutine finished")
 }
