@@ -36,7 +36,7 @@ func main() {
 				fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
 				fmt.Printf("\tNumGC = %v\n", m.NumGC)
 			case <-signalChannel:
-				fmt.Println("Received interrupt signal, shutting down...")
+				fmt.Println("\nReceived interrupt signal, shutting down...")
 				return
 			}
 		}
