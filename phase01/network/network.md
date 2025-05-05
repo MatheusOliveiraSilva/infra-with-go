@@ -10,14 +10,10 @@ O modelo OSI (Open Systems Interconnection) é um modelo conceitual que padroniz
 
 O modelo OSI é dividido em 7 camadas, e para alguém com o objetivo de trabalhar com SRE e infraestrutura usando Go, é interessante entender como essas camadas impactam a monitoração e a comunicação de rede. Camadas como a 3 (Rede) e a 4 (Transporte) são cruciais quando lidamos com protocolos de rede e a estabilidade do sistema. Em Go, saber como trabalhar com essas camadas ajuda a implementar soluções de infraestrutura mais eficientes e robustas.
 
-Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com pegada de SRE** e uso de **Go em infraestrutura**. Focaremos nos aspectos mais relevantes para o dia a dia.
-
----
-
 ## 1. Camada Física (Layer 1)
 
 *   **O que é:** Representa os meios físicos de transmissão de dados brutos (bits). Inclui cabos (Ethernet, fibra óptica), conectores, sinais elétricos, rádio frequência (Wi-Fi), etc. Define as especificações elétricas e mecânicas.
-*   **Relevância para SRE/SWE com Go:** Baixa direta. Você raramente interage com esta camada via código Go. As APIs de rede (`net` package) abstraem completamente esta camada.
+*   **Relevância para SRE/SWE com Go:** Baixa direta. Raramente um SWE interage com esta camada via código Go. As APIs de rede (`net` package) abstraem completamente esta camada.
 *   **Impacto indireto:** Problemas físicos são a causa raiz de muitas falhas de rede que se manifestam em camadas superiores:
     *   Cabo desconectado ou danificado.
     *   Sinal Wi-Fi fraco ou com interferência.
@@ -81,10 +77,10 @@ Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com 
     *   **ICMP:** Usado por `ping`. Pode-se criar "raw sockets" em Go para enviar pacotes ICMP customizados (ex: para health checks mais avançados), usando `golang.org/x/net/icmp`.
         ```go
         // Exemplo conceitual de ping ICMP em Go
-        // import "golang.org/x/net/icmp"
-        // import "golang.org/x/net/ipv4"
+        import "golang.org/x/net/icmp"
+        import "golang.org/x/net/ipv4"
         // ...
-        // conn, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
+        conn, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
         // // ... construir e enviar mensagem echo ICMP ...
         // // ... ler resposta ...
         ```
@@ -138,8 +134,7 @@ Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com 
         	conn, err := net.DialTimeout("tcp", target, timeout)
         	if err != nil {
         		// O erro pode ser um timeout ou outro problema de rede (DNS, roteamento)
-        		fmt.Printf("Erro ao conectar a %s: %v
-", target, err)
+        		fmt.Printf("Erro ao conectar a %s: %v", target, err)
         		// Verificar se foi especificamente um timeout
         		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
         			fmt.Println("A conexão atingiu o timeout.")
@@ -162,16 +157,16 @@ Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com 
     *   **`context.Context` em Go:** Embora não seja um protocolo de rede, o `context` serve a um propósito análogo *dentro* de uma aplicação Go para gerenciar o ciclo de vida, cancelamento e deadlines de operações (incluindo chamadas de rede). Propagar um `context` com timeout ou cancelamento através de várias chamadas de função/goroutines é similar ao controle de uma "sessão" de trabalho.
         ```go
         // Exemplo conceitual com context
-        // ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-        // defer cancel()
+        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+        defer cancel()
         //
         // // Passa o ctx para funções que fazem I/O (rede, DB, etc.)
-        // result, err := performNetworkRequest(ctx, requestData)
-        // if err != nil {
-        //     if errors.Is(err, context.DeadlineExceeded) {
-        //         fmt.Println("Operação cancelada devido a timeout do contexto (sessão)")
-        //     }
-        // }
+        result, err := performNetworkRequest(ctx, requestData)
+        if err != nil {
+            if errors.Is(err, context.DeadlineExceeded) {
+                fmt.Println("Operação cancelada devido a timeout do contexto (sessão)")
+            }
+        }
         ```
     *   **gRPC Streams:** O conceito de streams bidirecionais em gRPC (que roda sobre HTTP/2, que roda sobre TCP) permite um diálogo contínuo entre cliente e servidor, gerenciado pela biblioteca gRPC, que pode ser visto como uma forma de gerenciamento de sessão. Deadlines em gRPC também se encaixam aqui.
     *   **Keep-Alive em TCP/HTTP:** A reutilização de conexões TCP (via `Keep-Alive`) para múltiplas requisições HTTP pode ser vista como uma forma de otimização de sessão, embora gerenciada em L4/L7.
@@ -224,8 +219,7 @@ Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com 
         	if err != nil {
         		log.Fatalf("Erro ao serializar JSON: %v", err)
         	}
-        	fmt.Printf("JSON: %s
-", jsonData)
+        	fmt.Printf("JSON: %s", jsonData)
 
         	// Desserialização (JSON -> Go struct)
         	var receivedReq Request
@@ -233,28 +227,27 @@ Segue uma visão prática do **Modelo OSI** aplicada ao seu perfil de **SWE com 
         	if err != nil {
         		log.Fatalf("Erro ao desserializar JSON: %v", err)
         	}
-        	fmt.Printf("Struct recebida: %+v
-", receivedReq)
+        	fmt.Printf("Struct recebida: %+v", receivedReq)
         }
         ```
     *   **Configurando TLS Básico em Servidor HTTP:**
         ```go
-        // import "net/http"
-        // import "log"
-        //
-        // func handler(w http.ResponseWriter, r *http.Request) {
-        //     fmt.Fprintf(w, "Hello, TLS!")
-        // }
-        //
-        // func main() {
-        //     http.HandleFunc("/", handler)
-        //     // Assume cert.pem e key.pem existem
-        //     log.Println("Servidor HTTPS ouvindo na porta 8443...")
-        //     err := http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
-        //     if err != nil {
-        //         log.Fatal("ListenAndServeTLS: ", err)
-        //     }
-        // }
+        import "net/http"
+        import "log"
+        
+        func handler(w http.ResponseWriter, r *http.Request) {
+            fmt.Fprintf(w, "Hello, TLS!")
+        }
+        
+        func main() {
+            http.HandleFunc("/", handler)
+            // Assume cert.pem e key.pem existem
+            log.Println("Servidor HTTPS ouvindo na porta 8443...")
+            err := http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
+            if err != nil {
+                log.Fatal("ListenAndServeTLS: ", err)
+            }
+        }
         ```
     *   **Monitoramento:** Métricas de erros de parse, latência de serialização, taxa de sucesso de handshake TLS.
 
