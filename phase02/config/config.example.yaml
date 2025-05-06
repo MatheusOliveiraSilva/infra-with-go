@@ -1,0 +1,35 @@
+# Infraestrutura CLI - Arquivo de Configuração de Exemplo
+# Este arquivo demonstra todas as opções de configuração disponíveis
+
+# Configurações de log
+log_level: "info"   # Níveis: debug, info, warn, error
+log_format: "text"  # Formatos: text, json
+
+# Configurações do Docker
+docker:
+  # Registro Docker padrão para push/pull
+  registry: "docker.io"
+  
+  # Credenciais para autenticação no registro (opcional)
+  # As credenciais também podem ser fornecidas via variáveis de ambiente:
+  # INFRA_DOCKER_USERNAME e INFRA_DOCKER_PASSWORD
+  username: ""
+  password: ""
+  
+  # Tag padrão para imagens quando não especificada
+  default_tag: "latest"
+  
+  # Timeout para operações de build (em segundos)
+  build_timeout: 300
+
+# Configurações do Kubernetes
+kubernetes:
+  # Contexto kubectl a ser usado
+  context: ""
+  
+  # Namespace padrão para deployments
+  namespace: "default"
+  
+  # Caminho para o arquivo kubeconfig
+  # Se vazio, usará o valor padrão (~/.kube/config)
+  kubeconfig: "" 
