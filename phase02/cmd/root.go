@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/MatheusOliveiraSilva/infra-with-go/phase02/pkg/config"
 	"github.com/MatheusOliveiraSilva/infra-with-go/phase02/pkg/logger"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -32,20 +36,49 @@ func init() {
 	// Initialize configurations, flags, etc.
 	cobra.OnInitialize(initConfig)
 
-	// Example of a global flag
+	// Adicionar flags relacionadas à configuração
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./config.yaml)")
+
+	// Flags globais
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
 }
 
-// initConfig initializes configuration and logger
+// initConfig inicializa tanto o logger quanto as configurações
 func initConfig() {
-	// Check if verbose flag is enabled
+	// Verificar flag verbose
 	verbose, _ := rootCmd.PersistentFlags().GetBool("verbose")
 
-	// Initialize logger based on verbose flag
+	// Inicializar logger baseado na flag verbose
 	if verbose {
 		logger.Init("debug", "text")
 		logger.Log.Debug("Verbose logging enabled")
 	} else {
 		logger.Init("info", "text")
+	}
+
+	// Se um arquivo de configuração for especificado via flag, use-o
+	if cfgFile != "" {
+		logger.Log.WithFields(map[string]interface{}{
+			"file": cfgFile,
+		}).Debug("Using config file from flag")
+
+		// Informar o Viper sobre o arquivo de configuração específico
+		viper.SetConfigFile(cfgFile)
+	}
+
+	// Inicializar e carregar a configuração
+	if err := config.Init(); err != nil {
+		logger.Log.WithFields(map[string]interface{}{
+			"error": err,
+		}).Error("Failed to load configuration")
+		os.Exit(1)
+	}
+
+	// Obter a configuração e atualizar o logger se necessário
+	cfg := config.GetConfig()
+
+	// Se verbose não estiver ativo, use o nível de log da configuração
+	if !verbose {
+		logger.Init(cfg.LogLevel, cfg.LogFormat)
 	}
 }
