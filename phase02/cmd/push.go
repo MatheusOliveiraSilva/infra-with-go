@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/MatheusOliveiraSilva/infra-with-go/phase02/pkg/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -22,18 +23,20 @@ Example usage:
 
 		imageName := args[0]
 		registry, _ := cmd.Flags().GetString("registry")
-		verbose, _ := cmd.Flags().GetBool("verbose")
 
 		// Log the push configuration
-		if verbose {
-			fmt.Printf("Pushing image: %s\n", imageName)
-			if registry != "" {
-				fmt.Printf("To registry: %s\n", registry)
-			}
+		logFields := map[string]interface{}{
+			"image": imageName,
 		}
 
+		if registry != "" {
+			logFields["registry"] = registry
+		}
+
+		logger.Log.WithFields(logFields).Debug("Pushing Docker image")
+
 		// TODO: Implement actual Docker push logic
-		fmt.Println("Pushing Docker image...")
+		logger.Log.Info("Pushing Docker image...")
 
 		return nil
 	},

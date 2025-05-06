@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/MatheusOliveiraSilva/infra-with-go/phase02/pkg/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +30,22 @@ func Execute() {
 
 func init() {
 	// Initialize configurations, flags, etc.
+	cobra.OnInitialize(initConfig)
 
 	// Example of a global flag
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
+}
+
+// initConfig initializes configuration and logger
+func initConfig() {
+	// Check if verbose flag is enabled
+	verbose, _ := rootCmd.PersistentFlags().GetBool("verbose")
+
+	// Initialize logger based on verbose flag
+	if verbose {
+		logger.Init("debug", "text")
+		logger.Log.Debug("Verbose logging enabled")
+	} else {
+		logger.Init("info", "text")
+	}
 }

@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/MatheusOliveiraSilva/infra-with-go/phase02/pkg/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +17,6 @@ Example usage:
 		// Get flag values
 		tag, _ := cmd.Flags().GetString("tag")
 		dockerfile, _ := cmd.Flags().GetString("file")
-		verbose, _ := cmd.Flags().GetBool("verbose")
 
 		// Context path is the first argument
 		context := "."
@@ -27,14 +25,14 @@ Example usage:
 		}
 
 		// Log the build configuration
-		if verbose {
-			fmt.Printf("Building image with tag: %s\n", tag)
-			fmt.Printf("Using Dockerfile: %s\n", dockerfile)
-			fmt.Printf("Build context: %s\n", context)
-		}
+		logger.Log.WithFields(map[string]interface{}{
+			"tag":        tag,
+			"dockerfile": dockerfile,
+			"context":    context,
+		}).Debug("Building Docker image")
 
 		// TODO: Implement actual Docker build logic
-		fmt.Println("Building Docker image...")
+		logger.Log.Info("Building Docker image...")
 
 		return nil
 	},
